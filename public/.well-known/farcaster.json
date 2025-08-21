@@ -10,7 +10,7 @@
     "subtitle": "Built with Zara",
     "description": "FitFlow Agent is a Base Mini App built with Zara.",
     "iconUrl": "https://0co.to/images/zara-2.png",
-    "homeUrl": "https://927a428ec0e945f1a3daa4d7e0693da8-xfkc-9s3eck2fu-vistara.vercel.app",
+    "homeUrl": "https://927a428ec0e945f1a3daa4d7e0693da8-ypnq-6tdfy9cdf-vistara.vercel.app",
     "splashImageUrl": "https://927a428ec0e945f1a3daa4d7e0693da8-xfkc-9s3eck2fu-vistara.vercel.app/splash.png",
     "splashBackgroundColor": "#000000",
     "heroImageUrl": "https://927a428ec0e945f1a3daa4d7e0693da8-xfkc-9s3eck2fu-vistara.vercel.app/image.png",
@@ -25,6 +25,6 @@
       "miniapp",
       "onchainkit"
     ],
-    "webhookUrl": "https://927a428ec0e945f1a3daa4d7e0693da8-xfkc-9s3eck2fu-vistara.vercel.app/api/webhook"
+    "webhookUrl": "https://927a428ec0e945f1a3daa4d7e0693da8-ypnq-6tdfy9cdf-vistara.vercel.app/api/webhook"
   }
 }

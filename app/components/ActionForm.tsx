@@ -1,8 +1,6 @@
-
 "use client";
 
 import { useState } from "react";
-import { Send, Star } from "lucide-react";
 
 interface ActionFormProps {
   variant: "workoutLog" | "statusUpdate";
@@ -11,10 +9,13 @@ interface ActionFormProps {
 
 export function ActionForm({ variant, onSubmit }: ActionFormProps) {
   const [formData, setFormData] = useState({
-    feeling: 5,
-    difficulty: 5,
+    exercise: "",
+    sets: "",
+    reps: "",
+    weight: "",
     notes: "",
-    energy: 5
+    energy: 5,
+    mood: 5
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -22,87 +23,147 @@ export function ActionForm({ variant, onSubmit }: ActionFormProps) {
     onSubmit(formData);
   };
 
-  const StarRating = ({ value, onChange, label }: { 
-    value: number; 
-    onChange: (value: number) => void;
-    label: string;
-  }) => (
-    <div className="space-y-2">
-      <label className="text-sm font-medium">{label}</label>
-      <div className="flex items-center space-x-1">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <button
-            key={star}
-            type="button"
-            onClick={() => onChange(star)}
-            className="transition-colors duration-fast"
-          >
-            <Star 
-              size={20} 
-              className={star <= value ? "text-yellow-500 fill-current" : "text-muted"}
-            />
-          </button>
-        ))}
-      </div>
-    </div>
-  );
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
 
   if (variant === "workoutLog") {
     return (
-      <form onSubmit={handleSubmit} className="space-y-md">
-        <StarRating
-          value={formData.feeling}
-          onChange={(value) => setFormData(prev => ({ ...prev, feeling: value }))}
-          label="How did you feel overall?"
-        />
+      <form onSubmit={handleSubmit} className="card space-y-4">
+        <h3 className="text-xl font-semibold text-text">Log Your Workout</h3>
         
-        <StarRating
-          value={formData.difficulty}
-          onChange={(value) => setFormData(prev => ({ ...prev, difficulty: value }))}
-          label="How challenging was it?"
-        />
-        
-        <StarRating
-          value={formData.energy}
-          onChange={(value) => setFormData(prev => ({ ...prev, energy: value }))}
-          label="Your energy level?"
-        />
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Additional notes</label>
-          <textarea
-            value={formData.notes}
-            onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
-            placeholder="Any thoughts on today's workout?"
-            className="input-field w-full resize-none"
-            rows={3}
+        <div>
+          <label className="block text-sm font-medium text-text mb-2">Exercise</label>
+          <input
+            type="text"
+            name="exercise"
+            value={formData.exercise}
+            onChange={handleChange}
+            className="input-field w-full"
+            placeholder="e.g., Push-ups, Squats"
+            required
           />
         </div>
 
-        <button type="submit" className="btn-primary w-full flex items-center justify-center space-x-2">
-          <Send size={16} />
-          <span>Submit Feedback</span>
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-text mb-2">Sets</label>
+            <input
+              type="number"
+              name="sets"
+              value={formData.sets}
+              onChange={handleChange}
+              className="input-field w-full"
+              placeholder="3"
+              min="1"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-text mb-2">Reps</label>
+            <input
+              type="number"
+              name="reps"
+              value={formData.reps}
+              onChange={handleChange}
+              className="input-field w-full"
+              placeholder="12"
+              min="1"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-text mb-2">Weight (lbs)</label>
+            <input
+              type="number"
+              name="weight"
+              value={formData.weight}
+              onChange={handleChange}
+              className="input-field w-full"
+              placeholder="50"
+              min="0"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-text mb-2">Notes</label>
+          <textarea
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
+            className="input-field w-full h-20 resize-none"
+            placeholder="How did it feel? Any observations?"
+          />
+        </div>
+
+        <button type="submit" className="btn-primary w-full flex items-center justify-center gap-2">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg>
+          Log Workout
         </button>
       </form>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-md">
-      <div className="space-y-2">
-        <label className="text-sm font-medium">How are you feeling today?</label>
+    <form onSubmit={handleSubmit} className="card space-y-4">
+      <h3 className="text-xl font-semibold text-text">Update Status</h3>
+      
+      <div>
+        <label className="block text-sm font-medium text-text mb-2">Energy Level (1-10)</label>
+        <input
+          type="range"
+          name="energy"
+          value={formData.energy}
+          onChange={handleChange}
+          className="w-full"
+          min="1"
+          max="10"
+        />
+        <div className="flex justify-between text-xs text-text/60 mt-1">
+          <span>Low</span>
+          <span className="font-medium">{formData.energy}</span>
+          <span>High</span>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-text mb-2">Mood (1-10)</label>
+        <input
+          type="range"
+          name="mood"
+          value={formData.mood}
+          onChange={handleChange}
+          className="w-full"
+          min="1"
+          max="10"
+        />
+        <div className="flex justify-between text-xs text-text/60 mt-1">
+          <span>Poor</span>
+          <span className="font-medium">{formData.mood}</span>
+          <span>Great</span>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-text mb-2">Notes</label>
         <textarea
+          name="notes"
           value={formData.notes}
-          onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
-          placeholder="Tell your AI coach about your current state..."
-          className="input-field w-full resize-none"
-          rows={3}
+          onChange={handleChange}
+          className="input-field w-full h-20 resize-none"
+          placeholder="How are you feeling today?"
         />
       </div>
 
-      <button type="submit" className="btn-primary w-full flex items-center justify-center space-x-2">
-        <Send size={16} />
-        <span>Update Status</span>
+      <button type="submit" className="btn-primary w-full flex items-center justify-center gap-2">
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        </svg>
+        Update Status
       </button>
     </form>
   );

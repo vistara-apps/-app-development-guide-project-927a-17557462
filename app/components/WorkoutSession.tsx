@@ -1,8 +1,8 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
 import { CoachMessage } from "./CoachMessage";
+import { ChatInterface } from "./ChatInterface";
 
 interface WorkoutSessionProps {
   workout: any;
@@ -178,6 +178,12 @@ export function WorkoutSession({ workout, onComplete }: WorkoutSessionProps) {
         ))}
       </div>
 
+      {/* Chat Interface */}
+      <div className="mt-6">
+        <h3 className="text-headline text-text mb-3">Ask Your Coach</h3>
+        <ChatInterface userId="user123" context={{ workout: workout.name, currentExercise: currentExerciseData.name }} />
+      </div>
+      
       {/* Quick Actions */}
       <div className="grid grid-cols-2 gap-3">
         <button className="btn-secondary p-3 text-center">

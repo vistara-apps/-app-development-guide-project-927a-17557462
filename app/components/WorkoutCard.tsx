@@ -1,4 +1,3 @@
-
 "use client";
 
 interface WorkoutCardProps {
@@ -8,79 +7,76 @@ interface WorkoutCardProps {
     duration: string;
     exercises: number;
     difficulty: string;
-    status: 'ready' | 'completed' | 'scheduled';
+    status: "ready" | "scheduled" | "completed";
   };
-  variant: 'active' | 'completed' | 'scheduled';
+  variant?: "active" | "scheduled" | "completed";
   onStart?: () => void;
 }
 
-export function WorkoutCard({ workout, variant, onStart }: WorkoutCardProps) {
-  const getStatusColor = () => {
+export function WorkoutCard({ workout, variant = "active", onStart }: WorkoutCardProps) {
+  const getVariantStyles = () => {
     switch (variant) {
-      case 'active':
-        return 'border-primary bg-blue-50';
-      case 'completed':
-        return 'border-accent bg-green-50';
-      case 'scheduled':
-        return 'border-border-light bg-surface';
+      case "active":
+        return "border-primary/30 bg-primary/5";
+      case "scheduled":
+        return "border-border-light bg-surface";
+      case "completed":
+        return "border-accent/30 bg-accent/5";
       default:
-        return 'border-border-light bg-surface';
+        return "border-border-light bg-surface";
     }
   };
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty.toLowerCase()) {
-      case 'beginner':
-        return 'text-green-600 bg-green-100';
-      case 'intermediate':
-        return 'text-yellow-600 bg-yellow-100';
-      case 'advanced':
-        return 'text-red-600 bg-red-100';
+  const getStatusIcon = () => {
+    switch (workout.status) {
+      case "ready":
+        return "🔥";
+      case "scheduled":
+        return "📅";
+      case "completed":
+        return "✅";
       default:
-        return 'text-text-muted bg-bg';
+        return "📋";
     }
   };
 
   return (
-    <div className={`card ${getStatusColor()} transition-all duration-200 hover:shadow-modal`}>
-      <div className="space-y-3">
-        <div className="flex justify-between items-start">
-          <div className="space-y-1">
-            <h4 className="font-semibold text-text">{workout.name}</h4>
-            <div className="flex items-center space-x-4 text-sm text-text-muted">
-              <span>⏱️ {workout.duration}</span>
-              <span>🎯 {workout.exercises} exercises</span>
-            </div>
+    <div className={`rounded-lg border p-4 ${getVariantStyles()} transition-all duration-200 hover:shadow-md`}>
+      <div className="flex justify-between items-start">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-lg">{getStatusIcon()}</span>
+            <h4 className="font-medium text-text">{workout.name}</h4>
           </div>
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(workout.difficulty)}`}>
-            {workout.difficulty}
-          </span>
+          <div className="mt-2 grid grid-cols-3 gap-2 text-sm text-text-muted">
+            <div>⏱️ {workout.duration}</div>
+            <div>💪 {workout.exercises} exercises</div>
+            <div>🎯 {workout.difficulty}</div>
+          </div>
         </div>
-
-        {variant === 'active' && onStart && (
+        
+        {variant === "active" && onStart && (
           <button
             onClick={onStart}
-            className="btn-primary w-full"
+            className="btn-primary text-sm px-3 py-1.5"
           >
-            Start Workout
+            Start
           </button>
         )}
-
-        {variant === 'completed' && (
-          <div className="flex items-center justify-between">
-            <span className="text-accent font-medium text-sm">✅ Completed</span>
-            <button className="text-primary text-sm hover:text-primary-hover transition-colors">
-              View Details
-            </button>
-          </div>
+        
+        {variant === "scheduled" && (
+          <span className="text-xs px-2 py-1 bg-gray-100 rounded-full text-text-muted">
+            Upcoming
+          </span>
         )}
-
-        {variant === 'scheduled' && (
-          <div className="text-text-muted text-sm">
-            📅 Scheduled for tomorrow
-          </div>
+        
+        {variant === "completed" && (
+          <span className="text-xs px-2 py-1 bg-accent/10 rounded-full text-accent">
+            Completed
+          </span>
         )}
       </div>
     </div>
   );
 }
+

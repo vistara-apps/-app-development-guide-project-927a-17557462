@@ -1,14 +1,16 @@
 "use client";
 
 interface CoachMessageProps {
-  variant: "info" | "warning" | "success";
+  type: "info" | "warning" | "success";
   message: string;
+  avatar?: string;
+  timestamp?: string;
   title?: string;
 }
 
-export function CoachMessage({ variant, message, title }: CoachMessageProps) {
+export function CoachMessage({ type, message, avatar, timestamp, title }: CoachMessageProps) {
   const getVariantStyles = () => {
-    switch (variant) {
+    switch (type) {
       case "info":
         return "bg-primary/10 border-primary/20 text-primary";
       case "warning":
@@ -21,7 +23,7 @@ export function CoachMessage({ variant, message, title }: CoachMessageProps) {
   };
 
   const getIcon = () => {
-    switch (variant) {
+    switch (type) {
       case "info":
         return (
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,13 +51,16 @@ export function CoachMessage({ variant, message, title }: CoachMessageProps) {
     <div className={`p-4 rounded-lg border ${getVariantStyles()} animate-fade-in`}>
       <div className="flex items-start gap-3">
         <div className="flex-shrink-0 mt-0.5">
-          {getIcon()}
+          {avatar ? <span className="text-lg">{avatar}</span> : getIcon()}
         </div>
         <div className="flex-1">
           {title && (
             <h4 className="font-semibold mb-1">{title}</h4>
           )}
           <p className="text-sm leading-relaxed">{message}</p>
+          {timestamp && (
+            <p className="text-xs mt-1 opacity-70">{timestamp}</p>
+          )}
         </div>
       </div>
     </div>

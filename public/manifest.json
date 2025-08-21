@@ -1,0 +1,14 @@
+{
+  "name": "FitFlow Agent",
+  "description": "FitFlow Agent is a Base Mini App built with Zara.",
+  "image": "https://dummyimage.com/1200x628/0a0b0d/ffffff.png&text=OG",
+  "external_url": "https://927a428e-c0e9-45f1-a3da-a4d7e0693da8.vistara.dev",
+  "properties": {
+    "app": {
+      "name": "FitFlow Agent",
+      "description": "FitFlow Agent is a Base Mini App built with Zara.",
+      "url": "https://927a428e-c0e9-45f1-a3da-a4d7e0693da8.vistara.dev",
+      "icon": "https://0co.to/images/zara-2.png"
+    }
+  }
+}
